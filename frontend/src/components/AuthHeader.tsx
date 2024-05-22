@@ -1,7 +1,6 @@
-
 import { Link } from "react-router-dom";
 
-const AuthHeader = ({ type }: { type: "signin" | "signup" }) => {
+export const AuthHeader = ({ type }: { type: "signin" | "signup" }) => {
   return (
     <>
       <h1 className="text-4xl font-bold">
@@ -21,5 +20,3 @@ const AuthHeader = ({ type }: { type: "signin" | "signup" }) => {
     </>
   );
 };
-
-export default AuthHeader;

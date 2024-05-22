@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { SignInInput } from "@rithik276/medium-common";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import AuthHeader from "./AuthHeader";
+import {AuthHeader} from "./AuthHeader";
 
-const SignInAuth = () => {
+export const SignInAuth = () => {
   const [postInputs, setPostInputs] = useState<SignInInput>({
     username: "",
     password: "",
@@ -65,5 +65,3 @@ const SignInAuth = () => {
     </>
   );
 };
-
-export default SignInAuth;
