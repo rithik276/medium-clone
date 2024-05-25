@@ -1,5 +1,5 @@
 import React from "react";
-import { FormatName } from "../pages/utils/FormatName";
+import { FormatName } from "../utils/FormatName";
 
 export const Avatar = ({ name }: { name: string }) => {
   return (

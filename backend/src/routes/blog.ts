@@ -54,6 +54,7 @@ blogRouter.post("/", async (c) => {
       title: body.title,
       content: body.content,
       authorId: authorId,
+      published: body.published,
     },
   });
 
@@ -82,6 +83,7 @@ blogRouter.put("/", async (c) => {
     data: {
       title: body.title,
       content: body.content,
+      published: body.published,
     },
   });
 
@@ -122,6 +124,18 @@ blogRouter.get("/:id", async (c) => {
     const blog = await prisma.blog.findFirst({
       where: {
         id: id,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        publishedDate: true,
+        published: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     return c.json({ blog });

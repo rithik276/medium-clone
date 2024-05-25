@@ -4,35 +4,36 @@ import {
   PersonOutline,
   PostAdd,
 } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 export const SideBar = () => {
   return (
     <>
-      <div className="mt-10">
+      <div className="hidden lg:block lg:mt-10 lg:w-[20%]">
         <aside
-          className="fixed top-0 left-0 z-40 w-64 h-screen mt-14 pt-10 transition-transform -translate-x-full bg-white pl-10 sm:translate-x-0"
+          className="fixed top-0 left-0  w-64 h-screen mt-14 pt-10 transition-transform -translate-x-full bg-white pl-10 sm:translate-x-0"
           aria-label="Sidebar"
         >
           <div className="h-full px-3 pb-4 overflow-y-auto bg-white">
             <ul className="space-y-2 font-medium">
               <li>
-                <a
-                  href="#"
+                <Link
+                  to={"/"}
                   className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group"
                 >
                   <Home />
                   <span className="ms-3">Home</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to={"/create/blog"}
                   className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group"
                 >
                   <PostAdd />
                   <span className="flex-1 ms-3 whitespace-nowrap">
                     Create Post
                   </span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a
