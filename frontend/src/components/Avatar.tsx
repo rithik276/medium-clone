@@ -1,4 +1,3 @@
-import React from "react";
 import { FormatName } from "../utils/FormatName";
 
 export const Avatar = ({ name }: { name: string }) => {
