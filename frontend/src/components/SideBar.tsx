@@ -36,13 +36,13 @@ export const SideBar = () => {
                 </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to={"/profile"}
                   className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group"
                 >
                   <PersonOutline />
                   <span className="flex-1 ms-3 whitespace-nowrap">Profile</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a

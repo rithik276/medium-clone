@@ -21,6 +21,7 @@ export const Blog = () => {
             content={blog.content}
             publishedDate={formatDateString(blog.publishedDate)}
             authorName={blog.author.name || "Anonymous"}
+            aboutAuthor={blog.author.about}
           />
         )}
       </AppBar>

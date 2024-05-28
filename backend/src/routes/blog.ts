@@ -134,6 +134,7 @@ blogRouter.get("/:id", async (c) => {
         author: {
           select: {
             name: true,
+            about: true,
           },
         },
       },
@@ -143,6 +144,63 @@ blogRouter.get("/:id", async (c) => {
     c.status(411);
     return c.json({
       message: "Error while fetching blog posts",
+    });
+  }
+});
+
+blogRouter.get("user_blogs/:id", async (c) => {
+  const id = await c.req.param("id");
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const blog = await prisma.blog.findMany({
+      where: {
+        authorId: id,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        publishedDate: true,
+        published: true,
+        author: {
+          select: {
+            name: true,
+            about: true,
+          },
+        },
+      },
+    });
+    return c.json({ blog });
+  } catch (e) {
+    c.status(411);
+    return c.json({
+      message: "Error while fetching blog posts",
+    });
+  }
+});
+
+blogRouter.post("updateBlogStatus", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const body = await c.req.json();
+  try {
+    const blog = await prisma.blog.update({
+      where: {
+        id: body.id,
+      },
+      data: {
+        published: body.published,
+      },
+    });
+    return c.json({ Response: "Update blog publish successful" });
+  } catch (e) {
+    c.status(411);
+    return c.json({
+      message: "Error while updating blog published status",
     });
   }
 });
