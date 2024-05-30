@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { signInInput, signUpInput } from "@rithik276/medium-common";
-import { Context, Hono, Next } from "hono";
+import { Context, ErrorHandler, Hono, Next } from "hono";
 import { sign, verify } from "hono/jwt";
 
 export const userRouter = new Hono<{
@@ -111,7 +111,6 @@ userRouter.get("/user_details", authorizationMiddleware, async (c) => {
     where: {
       id: userId,
     },
-    
   });
 
   if (!user) {
@@ -149,4 +148,46 @@ userRouter.post("/changePassword", authorizationMiddleware, async (c) => {
   }
 
   return c.json({ Response: "password changed successfully" });
+});
+
+userRouter.post("/updateUserDetails", authorizationMiddleware, async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env?.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  const body = await c.req.json();
+  if (!body.id) {
+    c.status(411);
+    return c.json({
+      message: "invalid inputs: id is required",
+    });
+  }
+
+  const data: Partial<{ name: string; about: string }> = {};
+  if (body.name) data.name = body.name;
+  if (body.about) data.about = body.about;
+
+  if (Object.keys(data).length === 0) {
+    c.status(411);
+    return c.json({
+      message: "no fields to update",
+    });
+  }
+
+  try {
+    const user = await prisma.user.update({
+      where: {
+        id: body.id,
+      },
+      data,
+    });
+
+    return c.json({ Response: "User details updated successfully" });
+  } catch (error: unknown) {
+    c.status(417);
+    return c.json({
+      error: "Error updating user details",
+      details: (error as Error).message,
+    });
+  }
 });
