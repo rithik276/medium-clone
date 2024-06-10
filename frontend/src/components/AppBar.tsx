@@ -3,8 +3,8 @@ import { SideBar } from "./SideBar";
 import { Button } from "./Button";
 import { useState, useEffect } from "react";
 import { UserPopup } from "./UserPopup";
-import { useRecoilValueLoadable, useRecoilValue } from "recoil";
-import { UserDetails, isUserSignedIn } from "../utils/UserDetails";
+import { useRecoilValueLoadable } from "recoil";
+import { UserDetails } from "../utils/UserDetails";
 import { FormatName } from "../utils/FormatName";
 
 interface Props {
@@ -14,7 +14,6 @@ interface Props {
 export const AppBar: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate();
   const userDetailsLoadable = useRecoilValueLoadable(UserDetails);
-  const isSignedIn = useRecoilValue(isUserSignedIn);
   const [showPopup, setShowPopup] = useState(false);
 
   const handlePopup = (e: React.MouseEvent) => {
@@ -35,12 +34,6 @@ export const AppBar: React.FC<Props> = ({ children }) => {
     };
   }, [showPopup]);
 
-  useEffect(() => {
-    if (!isSignedIn) {
-      navigate("/signin");
-    }
-  }, [isSignedIn, navigate]);
-
   return (
     <div>
       <div className="fixed top-0 w-full h-14 flex justify-between items-center border-b z-50 bg-slate-50 border-slate-200 shadow-lg">
@@ -57,7 +50,7 @@ export const AppBar: React.FC<Props> = ({ children }) => {
           ) : userDetailsLoadable.state === "hasValue" ? (
             <div
               onClick={handlePopup}
-              className="cursor-pointer relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-black rounded-full popup-container"
+              className="cursor-pointer relative inline-flex items-center justify-center w-8 h-8  bg-black rounded-full popup-container"
             >
               <span className="text-sm font-medium text-gray-200">
                 {FormatName(userDetailsLoadable.contents.name)}
