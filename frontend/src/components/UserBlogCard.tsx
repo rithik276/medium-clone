@@ -26,8 +26,9 @@ export const UserBlogCard = ({
   ) => {
     e.preventDefault();
     setIsLoading(true);
-    const published = e.target.value == "publish" ? true : false;
-    
+    const target = e.currentTarget as HTMLButtonElement;
+    const published = target.value == "publish" ? true : false;
+
     const url = `${BACKEND_URL}/api/v1/blog/updateBlogStatus`;
     const data = { id, published };
     try {
