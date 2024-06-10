@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { SignInInput } from "@rithik276/medium-common";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-import {AuthHeader} from "./AuthHeader";
+import { AuthHeader } from "./AuthHeader";
+import { useSetRecoilState } from "recoil";
+import { isUserSignedIn } from "../utils/UserDetails";
 
 export const SignInAuth = () => {
   const [postInputs, setPostInputs] = useState<SignInInput>({
@@ -12,6 +14,7 @@ export const SignInAuth = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const setSignedIn = useSetRecoilState(isUserSignedIn);
 
   const sendRequest = async () => {
     try {
@@ -19,8 +22,12 @@ export const SignInAuth = () => {
         `${BACKEND_URL}/api/v1/user/signin`,
         postInputs
       );
-      const jwt = response.data.jwt;
-      localStorage.setItem("token", jwt);
+      const { token, id } = response.data;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", id);
+
+      setSignedIn(true);
       navigate("/blogs");
     } catch (e) {
       // need to handle errors using toasts in both signin and signup

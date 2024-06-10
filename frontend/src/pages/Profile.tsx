@@ -1,6 +1,6 @@
 import { useRecoilValue } from "recoil";
 import { AppBar } from "../components/AppBar";
-import { GetBlogs } from "../utils/GetBlogs";
+import { blogsState } from "../utils/GetBlogs";
 import { UserBlogCard } from "../components/UserBlogCard";
 import { UserProfile } from "../components/UserProfile";
 
@@ -17,7 +17,8 @@ interface BlogCardProps {
 }
 
 export const Profile = () => {
-  const blogs = useRecoilValue(GetBlogs);
+  const blogs = useRecoilValue(blogsState);
+
   return (
     <>
       <AppBar>
@@ -26,16 +27,22 @@ export const Profile = () => {
             <h1 className="font-bold text-2xl pt-10 border-b border-slate-500 pb-3">
               Your Blogs
             </h1>
-            {blogs.map((b: BlogCardProps) => (
-              <UserBlogCard
-                id={b.id}
-                authorName={b.author.name}
-                title={b.title}
-                content={b.content}
-                publishedDate={b.publishedDate}
-                published={b.published}
-              />
-            ))}
+            {blogs.length == 0 ? (
+              <h1 className="text-xl pt-28 pl-28">
+                You have not uploaded any Blogs
+              </h1>
+            ) : (
+              blogs.map((b: BlogCardProps) => (
+                <UserBlogCard
+                  id={b.id}
+                  authorName={b.author.name}
+                  title={b.title}
+                  content={b.content}
+                  publishedDate={b.publishedDate}
+                  published={b.published}
+                />
+              ))
+            )}
           </div>
           <div className="bg-blue-00 w-[50%] ">
             <UserProfile />

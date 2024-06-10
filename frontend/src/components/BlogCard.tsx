@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Avatar } from "./Avatar";
-
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 interface BlogCardProps {
   id: string;
   authorName: string;
@@ -16,6 +16,7 @@ export const BlogCard = ({
   content,
   publishedDate,
 }: BlogCardProps) => {
+  const handleBookmark = () => {};
   return (
     <>
       <Link to={`/blog/${id}`}>
@@ -42,8 +43,13 @@ export const BlogCard = ({
               />
             </div>
           </div>
-          <div className="mt-2 text-slate-600">
-            {Math.ceil(content.length / 100)} min read{" "}
+          <div className="flex items-center gap-5">
+            <div className="mt-2 text-slate-600">
+              {Math.ceil(content.length / 100)} min read{" "}
+            </div>
+            <div onClick={handleBookmark} className="pt-1">
+              <BookmarkAddIcon />
+            </div>
           </div>
           <div className="mt-3 border-b h-1 w-full"></div>
         </div>

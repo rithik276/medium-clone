@@ -14,6 +14,7 @@ model User {
   password String
   about String?
   blogs    Blog[]
+  bookmarks Bookmarks[]
 }
 
 model Blog {
@@ -24,4 +25,14 @@ model Blog {
   published Boolean  @default(false)
   publishedDate DateTime @default(now())
   author    User     @relation(fields: [authorId], references: [id])
+  bookmarks Bookmarks[]
+  
+}
+
+model Bookmarks{
+  id        String   @id @default(uuid())
+  userId  String
+  blogId String
+  user    User     @relation(fields: [userId], references: [id])
+  blog    Blog     @relation(fields: [blogId], references: [id])
 }

@@ -1,13 +1,23 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { selector } from "recoil";
+import { atom, selector } from "recoil";
 import { BACKEND_URL } from "../config";
+
+export const isUserSignedIn = atom({
+  key: "isUserSignedIn",
+  default: false,
+});
 
 export const UserDetails = selector({
   key: "UserDetails",
-  get: async () => {
+  get: async ({ get }) => {
+    const signedIn = get(isUserSignedIn);
+    if (!signedIn) {
+      return [];
+    }
+
     try {
-      const params: { id: string } = {
-        id: "82ce6b08-de72-41d5-9c0d-8fbdcaa9dab8",
+      const params: { id: string | null } = {
+        id: localStorage.getItem("userId"),
       };
       const config: AxiosRequestConfig = {
         params,

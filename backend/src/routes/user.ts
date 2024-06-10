@@ -65,7 +65,7 @@ userRouter.post("/signin", async (c) => {
   }
 
   const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
-  return c.json({ jwt });
+  return c.json({ token: jwt, id: user.id });
 });
 
 const authorizationMiddleware = async (c: Context, next: Next) => {
